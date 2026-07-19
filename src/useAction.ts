@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import type { AsyncFunction, UseActionOptions, UseActionResult } from "./types";
 
 export function useAction<TArgs, TResult>(
