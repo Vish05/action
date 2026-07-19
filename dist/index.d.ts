@@ -1,5 +1,3 @@
-declare function useAction(): void;
-
 type AsyncFunction<TArgs, TResult> = (args: TArgs) => Promise<TResult>;
 interface UseActionOptions<TResult> {
     onSuccess?: (data: TResult) => void;
@@ -12,5 +10,7 @@ interface UseActionResult<TArgs, TResult> {
     data: TResult | null;
     error: Error | null;
 }
+
+declare function useAction<TArgs, TResult>(action: AsyncFunction<TArgs, TResult>, options?: UseActionOptions<TResult>): UseActionResult<TArgs, TResult>;
 
 export { type AsyncFunction, type UseActionOptions, type UseActionResult, useAction };
