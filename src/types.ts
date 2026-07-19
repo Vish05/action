@@ -8,7 +8,6 @@ export interface UseActionOptions<TResult> {
 export interface UseActionResult<TArgs, TResult> {
   run: (args: TArgs) => Promise<TResult>;
   reset: () => void;
-
   isPending: boolean;
   data: TResult | null;
   error: Error | null;

@@ -10,13 +10,39 @@ export function useAction<TArgs, TResult>(
   const [data, setData] = useState<TResult | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
+  const run = useCallback(
+    async (args: TArgs): Promise<TResult> => {
+      setIsPending(true);
+      setError(null);
+
+      try {
+        const result = await action(args);
+
+        setData(result);
+
+        options?.onSuccess?.(result);
+
+        return result;
+      } catch (err) {
+        const error =
+          err instanceof Error ? err : new Error("Unknown error occurred");
+
+        setError(error);
+
+        options?.onError?.(error);
+
+        throw error;
+      } finally {
+        setIsPending(false);
+      }
+    },
+    [action, options]
+  );
+
   const reset = useCallback(() => {
     setData(null);
     setError(null);
-  }, []);
-
-  const run = useCallback(async (_args: TArgs) => {
-    throw new Error("Not implemented.");
+    setIsPending(false);
   }, []);
 
   return {
