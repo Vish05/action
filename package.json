@@ -1,0 +1,52 @@
+{
+  "name": "@hookkit/action",
+  "version": "0.1.0",
+  "description": "React 19 async action hook.",
+  "keywords": [
+    "react",
+    "react19",
+    "hooks",
+    "typescript",
+    "actions"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rimraf dist",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": "^19.2.7"
+  },
+  "author": "Vishal Tanna",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Vish05/action.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Vish05/action/issues"
+  },
+  "homepage": "https://github.com/Vish05/action#readme",
+  "devDependencies": {
+    "@types/react": "^19.2.17",
+    "rimraf": "^6.1.3",
+    "tsup": "^8.5.1",
+    "typescript": "5.9.2"
+  }
+}
