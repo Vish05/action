@@ -1,23 +1,23 @@
 # @hookkit/action
 
-> Extend React 19 actions with a lightweight, type-safe hook.
+> The missing utilities for React 19 Actions.
 
-`@hookkit/action` provides a simple and ergonomic API for managing asynchronous actions in React 19 applications while preserving full TypeScript support.
+[![npm version](https://img.shields.io/npm/v/@hookkit/action.svg)](https://www.npmjs.com/package/@hookkit/action)
+[![License](https://img.shields.io/npm/l/@hookkit/action)](LICENSE)
+[![React](https://img.shields.io/badge/React-19-blue)](https://react.dev)
 
-> 🚧 **Status:** Under active development (v1.0.0)
+A lightweight, fully typed React hook for managing asynchronous actions with a clean and intuitive API.
 
----
-
-## Features
+## ✨ Features
 
 - ⚛️ Built for React 19
-- 📦 Lightweight with zero runtime dependencies
-- 🔷 Fully typed with TypeScript
+- 🔷 Full TypeScript support
 - ⏳ Built-in pending state
-- ✅ Automatic success handling
-- ❌ Automatic error handling
-- 🔄 Easy state reset
+- ✅ Success state management
+- ❌ Error handling
+- 🔄 Reset state
 - 🎯 Promise-based API
+- 📦 Zero runtime dependencies
 
 ---
 
@@ -41,29 +41,42 @@ pnpm add @hookkit/action
 
 ---
 
-## Quick Example
+## Quick Start
 
 ```tsx
 import { useAction } from "@hookkit/action";
 
-async function login(credentials: LoginRequest) {
-  // API call
+async function login(credentials: { email: string; password: string }) {
+  const response = await fetch("/api/login", {
+    method: "POST",
+    body: JSON.stringify(credentials),
+  });
+
+  if (!response.ok) {
+    throw new Error("Login failed");
+  }
+
+  return response.json();
 }
 
 function LoginForm() {
-  const action = useAction(login);
+  const loginAction = useAction(login);
 
   const handleSubmit = async () => {
-    await action.run({
+    await loginAction.run({
       email: "john@example.com",
       password: "password",
     });
   };
 
   return (
-    <button onClick={handleSubmit}>
-      {action.isPending ? "Logging in..." : "Login"}
-    </button>
+    <>
+      <button onClick={handleSubmit} disabled={loginAction.isPending}>
+        {loginAction.isPending ? "Loading..." : "Login"}
+      </button>
+
+      {loginAction.error && <p>{loginAction.error.message}</p>}
+    </>
   );
 }
 ```
@@ -72,30 +85,34 @@ function LoginForm() {
 
 ## API
 
-### useAction()
+### useAction
 
 ```ts
 const action = useAction(asyncFunction, options?);
 ```
 
-### Returns
+### Return Value
 
-| Property    | Description                             |
-| ----------- | --------------------------------------- |
-| `run()`     | Executes the async action               |
-| `isPending` | Indicates whether the action is running |
-| `data`      | Latest successful result                |
-| `error`     | Latest error                            |
-| `reset()`   | Clears the current state                |
+| Property    | Type               | Description               |
+| ----------- | ------------------ | ------------------------- |
+| `run(args)` | `Promise<TResult>` | Executes the async action |
+| `reset()`   | `() => void`       | Clears data and error     |
+| `isPending` | `boolean`          | Loading state             |
+| `data`      | `TResult \| null`  | Last successful result    |
+| `error`     | `Error \| null`    | Last error                |
 
 ---
 
 ## Options
 
 ```ts
-useAction(action, {
-  onSuccess(data) {},
-  onError(error) {},
+const action = useAction(login, {
+  onSuccess(data) {
+    console.log(data);
+  },
+  onError(error) {
+    console.error(error);
+  },
 });
 ```
 
@@ -103,20 +120,32 @@ useAction(action, {
 
 ## TypeScript
 
-`@hookkit/action` is written entirely in TypeScript and provides full type inference.
+The hook is fully generic.
 
-```ts
+```tsx
 const action = useAction(login);
 
-// `data` is automatically inferred
+// Automatically inferred
 action.data;
 ```
+
+No manual type annotations are required for most use cases.
 
 ---
 
 ## Browser Support
 
-Supports all modern browsers compatible with React 19.
+Compatible with all modern browsers supported by React 19.
+
+---
+
+## Development
+
+```bash
+npm install
+npm run build
+npm test
+```
 
 ---
 
@@ -124,32 +153,26 @@ Supports all modern browsers compatible with React 19.
 
 ### v1.0.0
 
-- [ ] Basic async action execution
-- [ ] Pending state
-- [ ] Error handling
-- [ ] Success state
-- [ ] Reset functionality
-- [ ] TypeScript support
+- ✅ Async actions
+- ✅ Pending state
+- ✅ Error handling
+- ✅ Success state
+- ✅ Reset
+- ✅ TypeScript
 
-### Future Releases
+### Future
 
-- [ ] Retry support
-- [ ] Request cancellation
-- [ ] Action deduplication
-- [ ] Timeout support
-- [ ] Middleware
-- [ ] DevTools integration
+- Retry support
+- Request cancellation
+- Action deduplication
+- Timeout support
+- Middleware
+- DevTools
 
 ---
 
 ## Contributing
 
-Contributions, issues, and feature requests are welcome.
+Contributions are welcome.
 
-If you find a bug or have an idea, please open an issue.
-
----
-
-## License
-
-MIT © Vishal Tanna
+If you find a bug or have an idea for a new feature, please open an issue or submit a pull request.
