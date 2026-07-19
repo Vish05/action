@@ -15,5 +15,15 @@ export function useAction<TArgs, TResult>(
     setError(null);
   }, []);
 
-  throw new Error("Not implemented.");
+  const run = useCallback(async (_args: TArgs) => {
+    throw new Error("Not implemented.");
+  }, []);
+
+  return {
+    run,
+    reset,
+    isPending,
+    data,
+    error,
+  };
 }
