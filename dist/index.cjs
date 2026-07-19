@@ -1,2 +1,0 @@
-'use strict';var react=require('react');function s(n,e){let[o,r]=react.useState(false),[i,c]=react.useState(null),[u,l]=react.useState(null);throw new Error("Not implemented.")}exports.useAction=s;//# sourceMappingURL=index.cjs.map
-//# sourceMappingURL=index.cjs.map

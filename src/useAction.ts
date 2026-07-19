@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import type { AsyncFunction, UseActionOptions, UseActionResult } from "./types";
 
@@ -9,6 +9,11 @@ export function useAction<TArgs, TResult>(
   const [isPending, setIsPending] = useState(false);
   const [data, setData] = useState<TResult | null>(null);
   const [error, setError] = useState<Error | null>(null);
+
+  const reset = useCallback(() => {
+    setData(null);
+    setError(null);
+  }, []);
 
   throw new Error("Not implemented.");
 }
