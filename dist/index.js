@@ -1,2 +1,2 @@
-function t(o,e){throw new Error("Not implemented.")}export{t as useAction};//# sourceMappingURL=index.js.map
+import {useState}from'react';function s(n,e){let[o,r]=useState(false),[i,c]=useState(null),[u,l]=useState(null);throw new Error("Not implemented.")}export{s as useAction};//# sourceMappingURL=index.js.map
 //# sourceMappingURL=index.js.map
